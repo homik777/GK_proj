@@ -16,6 +16,5 @@ C:\Users\admin\Uczelnia\Semestr VI\GK\GK_proj\Temp\bin\Debug\UnityEngine.xml
 C:\Users\admin\Uczelnia\Semestr VI\GK\GK_proj\Temp\bin\Debug\UnityEditor.xml
 C:\Users\admin\Uczelnia\Semestr VI\GK\GK_proj\Temp\bin\Debug\UnityEngine.UI.xml
 C:\Users\admin\Uczelnia\Semestr VI\GK\GK_proj\Temp\bin\Debug\UnityEngine.Networking.xml
-C:\Users\admin\Uczelnia\Semestr VI\GK\GK_proj\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 C:\Users\admin\Uczelnia\Semestr VI\GK\GK_proj\obj\Debug\Assembly-CSharp.dll
 C:\Users\admin\Uczelnia\Semestr VI\GK\GK_proj\obj\Debug\Assembly-CSharp.pdb
