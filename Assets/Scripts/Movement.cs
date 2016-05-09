@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour {
     public Boundary boundary;
 
     public GameObject shot;
+    public GameObject rocket;
     public Transform shotSpawn;
     public float fireRate;
 
@@ -46,6 +47,11 @@ public class Movement : MonoBehaviour {
         {
             nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpawn.position, shot.transform.rotation);
+        }
+        if (Input.GetButton("Fire2") && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            Instantiate(rocket, shotSpawn.position, shot.transform.rotation);
         }
         
     }
