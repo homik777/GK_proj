@@ -18,6 +18,8 @@ public class Movement : MonoBehaviour {
     public GameObject rocket;
     public Transform shotSpawn;
     public float fireRate;
+    public SphereCollider sc;
+    float timer;
 
     private float nextFire;
     private Rigidbody rb;
@@ -30,6 +32,7 @@ public class Movement : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
+        rb.velocity = Vector3.zero;
         Vector3 movement = new Vector3(rightLeft(), 0.0f, upDown());
 
         rb.velocity = movement * speed;
@@ -38,20 +41,21 @@ public class Movement : MonoBehaviour {
             Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
             defaultHigh,
             Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax));
-        rb.rotation = Quaternion.Euler(rb.velocity.x * tilt, 90, rb.velocity.z * tilt);
+        transform.eulerAngles = new Vector3(rb.velocity.x * tilt, 90, rb.velocity.z * tilt);
     }
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        timer += Time.deltaTime;
+        if (Input.GetButton("Fire1") && timer >= fireRate)
         {
-            nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpawn.position, shot.transform.rotation);
+            timer = 0;
         }
-        if (Input.GetButton("Fire2") && Time.time > nextFire)
+        if (Input.GetButton("Fire2") && timer >= fireRate)
         {
-            nextFire = Time.time + fireRate;
             Instantiate(rocket, shotSpawn.position, shot.transform.rotation);
+            timer = 0;
         }
         
     }

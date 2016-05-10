@@ -5,7 +5,7 @@ public class Rotator : MonoBehaviour {
 
     public int speed; 
 	
-	void Update () {
-        transform.Rotate(Vector3.forward * speed * Time.deltaTime);
+	void FixedUpdate () {
+        transform.eulerAngles += Vector3.forward * speed;
     }
 }
