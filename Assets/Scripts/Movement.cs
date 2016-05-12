@@ -7,6 +7,7 @@ public class Boundary
 {
     public float xMin, xMax, zMin, zMax;
 }
+
 public class Movement : MonoBehaviour {
 
     public float speed;
@@ -17,11 +18,15 @@ public class Movement : MonoBehaviour {
     public GameObject shot;
     public GameObject rocket;
     public Transform shotSpawn;
+    public Transform rocketSpawn_1;
+    public Transform rocketSpawn_2;
     public float fireRate;
+    
     public SphereCollider sc;
-    float timer;
+    float shotTimer;
+    float rocketTimer;
 
-    private float nextFire;
+    private bool switchSide;
     private Rigidbody rb;
 
 	// Use this for initialization
@@ -46,16 +51,27 @@ public class Movement : MonoBehaviour {
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (Input.GetButton("Fire1") && timer >= fireRate)
+        shotTimer += Time.deltaTime;
+        rocketTimer += Time.deltaTime;
+        if (Input.GetButton("Fire1") && shotTimer >= fireRate)
         {
             Instantiate(shot, shotSpawn.position, shot.transform.rotation);
-            timer = 0;
+            shotTimer = 0;
         }
-        if (Input.GetButton("Fire2") && timer >= fireRate)
+        if (Input.GetButton("Fire2") && rocketTimer >= fireRate)
         {
-            Instantiate(rocket, shotSpawn.position, shot.transform.rotation);
-            timer = 0;
+            if(switchSide)
+            {
+                Instantiate(rocket, rocketSpawn_1.position, shot.transform.rotation);
+                switchSide = !switchSide;
+            }
+            else
+            {
+                Instantiate(rocket, rocketSpawn_2.position, shot.transform.rotation);
+                switchSide = !switchSide;
+            }
+            
+            rocketTimer = 0;
         }
         
     }
@@ -71,5 +87,4 @@ public class Movement : MonoBehaviour {
     }
 
     
-
 }
