@@ -12,25 +12,33 @@ public class BoltMover : MonoBehaviour {
 
     void Update()
     {
+
         GameObject obj;
 
-        for (int i = 0; i <= SpawnController.enemyArray.Count - 1;i++ )
+        for (int i = 0; i <= SpawnController.enemyArray.Count - 1; i++)
         {
+
+            obj = (GameObject)SpawnController.enemyArray[i];
+            Collider collider = obj.GetComponent<CapsuleCollider>();
             
-            obj = (GameObject)SpawnController.enemyArray[0];
-            CapsuleCollider[] colliders;
-            colliders = obj.GetComponents<CapsuleCollider>();
-            foreach (CapsuleCollider item in colliders)
+            if(collider != null)
             {
-                if ((Mathf.Abs(transform.position.x - item.transform.position.x)) < (item.height / 0.1 * 2) && (Mathf.Abs(transform.position.z - item.transform.position.z) < (item.radius*0.1 )))
+                CapsuleCollider item = (CapsuleCollider) collider;
+                if ((Mathf.Abs(transform.position.x - item.transform.position.x)) < (item.height/2) && (Mathf.Abs(transform.position.z - item.transform.position.z) < (item.radius)))
                 {
-                    SpawnController.enemyArray.RemoveAt(i);
-                    Destroy(obj);
+                    SpawnController.enemyArray.Remove(obj);
+                     Destroy(obj);
                     Destroy(gameObject);
                 }
+            }else
+            {
+                SphereCollider item1 = obj.GetComponent<SphereCollider>();
+                
             }
+
+            
+            
         }
-        
     }
 
     void FixedUpdate()

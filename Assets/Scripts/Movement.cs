@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour {
             Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
             defaultHigh,
             Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax));
-        transform.eulerAngles = new Vector3(rb.velocity.x * tilt, 90, rb.velocity.z * tilt);
+        transform.eulerAngles = new Vector3(rb.velocity.z * tilt, 0, -rb.velocity.x * tilt);
     }
 
     void Update()

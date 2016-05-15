@@ -11,13 +11,14 @@ public class SpawnController : MonoBehaviour {
     public float spawnWait;
     public float startWait;
     public int maxEnemyCount;
+    public int minEnemyCount;
+    public float time;
 
     private int enemyCount;
     void Start()
     {
-        enemyCount = Random.Range(5, maxEnemyCount);
         enemyArray = new ArrayList();
-        StartCoroutine(SpawnWaves());
+        
     }
 
     IEnumerator SpawnWaves()
@@ -31,5 +32,19 @@ public class SpawnController : MonoBehaviour {
                 enemyArray.Add(Instantiate(enemy, spawnPosition, spawnRotation));
                 yield return new WaitForSeconds(spawnWait);
             }
+    }
+
+    void Update()
+    {
+        time += Time.deltaTime;
+        if (Input.GetButton("Jump") && SpawnController.enemyArray.Count<=2 )
+        {
+            if (time > spawnWait)
+            {
+                enemyCount = Random.Range(minEnemyCount, maxEnemyCount);
+                StartCoroutine(SpawnWaves());
+                time = 0;
+            }
+        }
     }
 }
