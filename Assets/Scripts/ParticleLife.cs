@@ -7,19 +7,26 @@ public class ParticleLife : MonoBehaviour {
     public float lifeTime;
     public float speed;
     public Vector3 direction;
-    public Color colorStart;
+    public Vector3 colorChange;
+    public float scaling;
+    public bool allDirections;
     private float timer;
 	void Start () {
-        Destroy(this.gameObject, lifeTime);
+        if (allDirections)
+        {
+            direction = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(-1.0f, 1.0f));
+        }
+        Destroy(transform.parent.gameObject, lifeTime);
     }
 	
 	// Update is called once per frame
     void FixedUpdate () {
         Color c = GetComponent<Renderer>().material.GetColor("_TintColor");
-        c.g += 0.05f;
-        c.b -= 0.05f;
+        c.r += colorChange.x;
+        c.g += colorChange.y;
+        c.b += colorChange.z;
         GetComponent<Renderer>().material.SetColor("_TintColor", c);
-        transform.localScale *= 0.9f;
+        transform.localScale *= scaling;
         transform.position += direction * speed;
 	}
 }
