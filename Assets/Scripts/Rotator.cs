@@ -4,11 +4,14 @@ public class Rotator : MonoBehaviour
 {
 
     public int speed;
-    public Transform parentObject;
+    public GameObject parentObject;
     public Vector3 relativePosition;
     void Update()
     {
-        transform.position = parentObject.position + relativePosition;
+        transform.position = parentObject.transform.position + relativePosition;
+    }
+    void FixedUpdate()
+    {
         transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y + speed, 0);
     }
 }

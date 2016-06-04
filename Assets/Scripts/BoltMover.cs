@@ -5,6 +5,7 @@ public class BoltMover : MonoBehaviour {
 
     public float speed;
     public float lifeTime;
+    public GameObject boom;
 	// Use this for initialization
 	void Start () {
         Destroy(this.gameObject,lifeTime);
@@ -27,6 +28,7 @@ public class BoltMover : MonoBehaviour {
                 if ((Mathf.Abs(transform.position.x - item.transform.position.x)) < (item.height/2) && (Mathf.Abs(transform.position.z - item.transform.position.z) < (item.radius)))
                 {
                     SpawnController.enemyArray.Remove(obj);
+                    Instantiate(boom, transform.position,transform.rotation);
                      Destroy(obj);
                     Destroy(gameObject);
                 }
