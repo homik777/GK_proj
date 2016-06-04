@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Rotator : MonoBehaviour {
+public class Rotator : MonoBehaviour
+{
 
-    public int speed; 
-	
-	void FixedUpdate () {
-        transform.eulerAngles += Vector3.forward * speed;
+    public int speed;
+    public Transform parentObject;
+    public Vector3 relativePosition;
+    void Update()
+    {
+        transform.position = parentObject.position + relativePosition;
+        transform.eulerAngles = new Vector3(-90, transform.eulerAngles.y + speed, 0);
     }
 }
