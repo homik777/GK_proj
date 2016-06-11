@@ -32,11 +32,10 @@ public class EnemyController : MonoBehaviour {
 
     void Update()
     {
-        
         if(player!=null)
         {
             float distance = Vector3.Distance(collider.transform.position, playerCollider.transform.position); ;
-            if ((distance < (collider.radius + playerCollider.radius)) ) 
+            if ((distance < (collider.radius + playerCollider.radius)))
             {
                 /*Code for phisical contact here*/
                 //Destroy(player);
