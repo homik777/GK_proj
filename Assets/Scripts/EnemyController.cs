@@ -5,14 +5,15 @@ public class EnemyController : MonoBehaviour {
 
     
     public float speed;
-
+    public int score;
+    private ScoreCounter scoreCounter;
     private static GameObject player;
     private  static GameObject boundary;
     private CapsuleCollider collider;
     private SphereCollider playerCollider;
 	// Use this for initialization
 	void Start () {
-
+        scoreCounter = GameObject.Find("ScoreText").GetComponent<ScoreCounter>();
         collider = GetComponent<CapsuleCollider>();
         if (player == null)
         {
@@ -38,7 +39,11 @@ public class EnemyController : MonoBehaviour {
             if ((distance < (collider.radius + playerCollider.radius)))
             {
                 /*Code for phisical contact here*/
-                //Destroy(player);
+                if (GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled)
+                {
+                    scoreCounter.addScore(score);
+                } else
+                    Destroy(player);
                 SpawnController.enemyArray.Remove(gameObject);
                 Destroy(this.gameObject);
 
@@ -49,7 +54,6 @@ public class EnemyController : MonoBehaviour {
             SpawnController.enemyArray.Remove(gameObject);
             Destroy(this.gameObject);
         }
-        
     }
 	// Update is called once per frame
 	void FixedUpdate () {

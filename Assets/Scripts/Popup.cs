@@ -3,18 +3,17 @@ using System.Collections;
 
 public class Popup : MonoBehaviour {
 
-    private bool up = false;
-    private float pos;
     public int rot;
     public float speed;
-    private float add = 0.0f;
     private static GameObject player;
     private static GameObject boundary;
-    private CapsuleCollider collider;
+    private SphereCollider collider;
     private SphereCollider playerCollider;
+    private float bonus;
     void Start()
     {
-        collider = GetComponent<CapsuleCollider>();
+        bonus = Random.Range(0.0f, 1.0f);
+        collider = GetComponent<SphereCollider>();
         if (player == null)
         {
             player = GameObject.Find("Player");
@@ -30,5 +29,24 @@ public class Popup : MonoBehaviour {
 	void FixedUpdate () {
         transform.Rotate(new Vector3(rot,rot,rot));
         transform.position -= new Vector3(0, 0, speed);
+    }
+    void Update()
+    {
+        if (Mathf.Abs(transform.position.z - boundary.transform.position.z) < 1)
+        {
+            SpawnController.enemyArray.Remove(gameObject);
+            Destroy(this.gameObject);
+        }
+        if (player != null)
+        {
+            float distance = Vector3.Distance(collider.transform.position, playerCollider.transform.position); ;
+            if ((distance < (collider.radius + playerCollider.radius)))
+            {
+                //if (bonus < 0.8f)
+                    GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled = true;
+                SpawnController.enemyArray.Remove(gameObject);
+                Destroy(this.gameObject);
+            }
+        } 
     }
 }

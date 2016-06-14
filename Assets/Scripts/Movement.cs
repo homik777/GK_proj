@@ -25,6 +25,8 @@ public class Movement : MonoBehaviour {
     public SphereCollider sc;
     float shotTimer;
     float rocketTimer;
+    public  float shieldTime;
+    float shieldTimer;
 
     private bool switchSide;
     private Rigidbody rb;
@@ -53,6 +55,15 @@ public class Movement : MonoBehaviour {
     {
         shotTimer += Time.deltaTime;
         rocketTimer += Time.deltaTime;
+        if (GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled)
+        {
+            shieldTimer += Time.deltaTime;
+            if (shieldTimer >= shieldTime)
+            {
+                GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled = false;
+                shieldTimer = 0;
+            }
+        }
         if (Input.GetButton("Fire1") && shotTimer >= fireRate)
         {
             Instantiate(shot, shotSpawn.position, shot.transform.rotation);

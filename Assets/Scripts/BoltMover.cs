@@ -5,11 +5,13 @@ public class BoltMover : MonoBehaviour {
 
     public float speed;
     public float lifeTime;
+    private ScoreCounter scoreCounter;
     public GameObject boom;
 	// Use this for initialization
 	void Start () {
+        scoreCounter = GameObject.Find("ScoreText").GetComponent<ScoreCounter>();
         Destroy(this.gameObject,lifeTime);
-	}
+    }
 
     void Update()
     {
@@ -29,7 +31,8 @@ public class BoltMover : MonoBehaviour {
                 {
                     SpawnController.enemyArray.Remove(obj);
                     Instantiate(boom, transform.position,transform.rotation);
-                     Destroy(obj);
+                    scoreCounter.addScore(obj.GetComponent<EnemyController>().score);
+                    Destroy(obj);
                     Destroy(gameObject);
                 }
             }else
