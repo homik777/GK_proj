@@ -6,10 +6,13 @@ public class EnemyController : MonoBehaviour {
     
     public float speed;
     public int score;
+    public GameObject boom;
     private ScoreCounter scoreCounter;
     private static GameObject player;
     private  static GameObject boundary;
     private CapsuleCollider collider;
+    public GameObject gameController;
+    public GameObject scoreParticle;
     private SphereCollider playerCollider;
 	// Use this for initialization
 	void Start () {
@@ -42,9 +45,21 @@ public class EnemyController : MonoBehaviour {
                 if (GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled)
                 {
                     scoreCounter.addScore(score);
+                    GameObject scoreObj = (GameObject)Instantiate(scoreParticle, transform.position, transform.rotation);
+                    scoreObj.GetComponentInChildren<TextMesh>().text = "" + score;
                 } else
-                    Destroy(player);
+                {
+                    player.GetComponent<Movement>().loseOneLife();
+                    if(player.GetComponent<Movement>().lifes <= 0 )
+                    {
+                        GameObject.Find("GameController").GetComponent<GameController>().GameOver();
+                        Instantiate(boom, player.gameObject.transform.position, player.gameObject.transform.rotation);
+                        Destroy(player.gameObject);
+                    }
+                    scoreCounter.updateLives(player.GetComponent<Movement>().lifes);
+                }
                 SpawnController.enemyArray.Remove(gameObject);
+                Instantiate(boom, transform.position, transform.rotation);
                 Destroy(this.gameObject);
 
             }

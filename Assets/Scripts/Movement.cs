@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour {
     public float defaultHigh;
     public float tilt;
     public Boundary boundary;
+    public int lifes = 3;
 
     public GameObject shot;
     public GameObject rocket;
@@ -95,6 +96,16 @@ public class Movement : MonoBehaviour {
     float upDown()
     {
         return Input.GetAxis("Vertical");
+    }
+
+    public void addOneLife()
+    {
+        lifes++;
+    }
+
+    public void loseOneLife()
+    {
+        lifes--;
     }
 
     

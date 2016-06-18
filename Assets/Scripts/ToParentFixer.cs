@@ -14,8 +14,12 @@ public class ToParentFixer : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 	   
-        transform.eulerAngles = parent.eulerAngles;
-        transform.position = parent.position;
+        if(parent!= null)
+        {
+            transform.eulerAngles = parent.eulerAngles;
+            transform.position = parent.position;
+        }
+       
         
 	}
 }

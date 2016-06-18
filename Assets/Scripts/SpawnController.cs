@@ -12,7 +12,9 @@ public class SpawnController : MonoBehaviour {
     public float startWait;
     public int maxEnemyCount;
     public int minEnemyCount;
-    public float time;
+    public float time =0;
+    private bool gameStarted =false;
+    public bool isEnemy;
 
     private int enemyCount;
     void Start()
@@ -23,13 +25,14 @@ public class SpawnController : MonoBehaviour {
 
     IEnumerator SpawnWaves()
     {
-        yield return new WaitForSeconds(startWait);
-     
             for (int i = 1; i <= enemyCount; i++)
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
-                enemyArray.Add(Instantiate(enemy, spawnPosition, spawnRotation));
+                if (isEnemy)
+                    enemyArray.Add(Instantiate(enemy, spawnPosition, spawnRotation));
+                else
+                    Instantiate(enemy, spawnPosition, spawnRotation);
                 yield return new WaitForSeconds(spawnWait);
             }
     }
@@ -37,9 +40,18 @@ public class SpawnController : MonoBehaviour {
     void Update()
     {
         time += Time.deltaTime;
-        if (Input.GetButton("Jump") && SpawnController.enemyArray.Count<=2 )
+        if (SpawnController.enemyArray.Count<=1 && isEnemy)
         {
-            if (time > spawnWait)
+            if (time > startWait)
+            {
+                enemyCount = Random.Range(minEnemyCount, maxEnemyCount);
+                StartCoroutine(SpawnWaves());
+                time = 0;
+            }
+        }
+        else if(!isEnemy)
+        {
+            if(time>startWait)
             {
                 enemyCount = Random.Range(minEnemyCount, maxEnemyCount);
                 StartCoroutine(SpawnWaves());
