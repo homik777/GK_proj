@@ -42,8 +42,13 @@ public class Popup : MonoBehaviour {
             float distance = Vector3.Distance(collider.transform.position, playerCollider.transform.position); ;
             if ((distance < (collider.radius + playerCollider.radius)))
             {
-                //if (bonus < 0.8f)
+                if (bonus < 0.5f)
                     GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled = true;
+                else {
+                    GameObject.Find("Hearth").transform.position = Camera.main.WorldToViewportPoint(transform.position);
+                    GameObject.Find("Hearth").GetComponent<GUITexture>().enabled = true;
+                    GameObject.Find("Hearth").GetComponent<AddLife>().enabled = true;
+                }
                 SpawnController.enemyArray.Remove(gameObject);
                 Destroy(this.gameObject);
             }

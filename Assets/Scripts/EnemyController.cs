@@ -42,32 +42,38 @@ public class EnemyController : MonoBehaviour {
             if ((distance < (collider.radius + playerCollider.radius)))
             {
                 /*Code for phisical contact here*/
-                if (GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled)
+                if (!player.GetComponent<Pulsing>().enabled)
                 {
-                    scoreCounter.addScore(score);
-                    GameObject scoreObj = (GameObject)Instantiate(scoreParticle, transform.position, transform.rotation);
-                    scoreObj.GetComponentInChildren<TextMesh>().text = "" + score;
-                } else
-                {
-                    player.GetComponent<Movement>().loseOneLife();
-                    if(player.GetComponent<Movement>().lifes <= 0 )
+                    if (GameObject.Find("Shield").GetComponent<MeshRenderer>().enabled)
                     {
-                        GameObject.Find("GameController").GetComponent<GameController>().GameOver();
-                        Instantiate(boom, player.gameObject.transform.position, player.gameObject.transform.rotation);
-                        Destroy(player.gameObject);
+                        scoreCounter.addScore(score);
+                        GameObject scoreObj = (GameObject)Instantiate(scoreParticle, transform.position, transform.rotation);
+                        scoreObj.GetComponentInChildren<TextMesh>().text = "" + score;
                     }
-                    scoreCounter.updateLives(player.GetComponent<Movement>().lifes);
+                    else
+                    {
+                        player.GetComponent<Pulsing>().enabled = true;
+                        player.GetComponent<Movement>().loseOneLife();
+                    }
+                    SpawnController.enemyArray.Remove(gameObject);
+                    Instantiate(boom, transform.position, transform.rotation);
+                    Destroy(this.gameObject);
                 }
-                SpawnController.enemyArray.Remove(gameObject);
-                Instantiate(boom, transform.position, transform.rotation);
-                Destroy(this.gameObject);
 
             }
         }
-        if (Mathf.Abs(transform.position.z- boundary.transform.position.z) <1)
+        if (Mathf.Abs(transform.position.z - boundary.transform.position.z) < 14)
         {
             SpawnController.enemyArray.Remove(gameObject);
+            player.GetComponent<Movement>().loseOneLife();
             Destroy(this.gameObject);
+        }
+        scoreCounter.updateLives(player.GetComponent<Movement>().lifes);
+        if (player.GetComponent<Movement>().lifes <= 0)
+        {
+            GameObject.Find("GameController").GetComponent<GameController>().GameOver();
+            Instantiate(boom, player.gameObject.transform.position, player.gameObject.transform.rotation);
+            Destroy(player.gameObject);
         }
     }
 	// Update is called once per frame
